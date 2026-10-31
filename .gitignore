@@ -1,0 +1,18 @@
+# Vivado generated project artifacts & logs
+scripts/vivado_project/pipelined_8bit_cpu.cache/
+scripts/vivado_project/pipelined_8bit_cpu.hw/
+scripts/vivado_project/pipelined_8bit_cpu.ip_user_files/
+scripts/vivado_project/pipelined_8bit_cpu.sim/
+*.jou
+*.log
+*.str
+*.wdb
+*.vcd
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# OS artifacts
+.DS_Store
+Thumbs.db

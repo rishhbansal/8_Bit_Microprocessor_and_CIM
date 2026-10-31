@@ -1,0 +1,393 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 0 1850 1100" width="1850" height="1100" font-family="Segoe UI, Arial, sans-serif">
+<defs>
+<marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#38bdf8"/></marker>
+<marker id="ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c084fc"/></marker>
+<marker id="af" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#fb923c"/></marker>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#f87171"/></marker>
+<marker id="aw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4ade80"/></marker>
+</defs>
+<rect x="-40" y="0" width="1850" height="1100" fill="#0f172a"/>
+<rect x="-30" y="8" width="1830" height="60" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.2"/>
+<text x="-18" y="34" font-size="19" fill="#f8fafc" text-anchor="start" font-weight="700">8-Bit 5-Stage Pipelined RISC Microprocessor - Datapath, Control and Hazard Schematic</text>
+<text x="-18" y="56" font-size="11" fill="#94a3b8" text-anchor="start" font-weight="400">Every block, port and wire is named exactly as in rtl/cpu_core.sv (cpu_top = cpu_core + instruction_mem + data_mem)</text>
+<path d="M 1010 24 L 1038 24" fill="none" stroke="#38bdf8" stroke-width="2.2" marker-end="url(#ad)"/>
+<text x="1044" y="28" font-size="10" fill="#e2e8f0" text-anchor="start" font-weight="600">Datapath</text>
+<path d="M 1110 24 L 1138 24" fill="none" stroke="#c084fc" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<text x="1144" y="28" font-size="10" fill="#e2e8f0" text-anchor="start" font-weight="600">Control</text>
+<path d="M 1204 24 L 1232 24" fill="none" stroke="#fb923c" stroke-width="2.2" marker-end="url(#af)"/>
+<text x="1238" y="28" font-size="10" fill="#e2e8f0" text-anchor="start" font-weight="600">Forwarding</text>
+<path d="M 1316 24 L 1344 24" fill="none" stroke="#f87171" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="1350" y="28" font-size="10" fill="#e2e8f0" text-anchor="start" font-weight="600">Stall / flush / branch</text>
+<path d="M 1500 24 L 1528 24" fill="none" stroke="#4ade80" stroke-width="2.2" marker-end="url(#aw)"/>
+<text x="1534" y="28" font-size="10" fill="#e2e8f0" text-anchor="start" font-weight="600">Write-back</text>
+<text x="1010" y="52" font-size="9.5" fill="#94a3b8" text-anchor="start" font-weight="400">Wires that cross WITHOUT a dot are not connected.  Small arrows with a name = signal passed by name.</text>
+<rect x="0" y="80" width="300" height="24" rx="4" fill="#0284c7"/>
+<text x="150.0" y="96" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">STAGE 1: INSTRUCTION FETCH (IF)</text>
+<rect x="412" y="80" width="290" height="24" rx="4" fill="#7c3aed"/>
+<text x="557.0" y="96" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">STAGE 2: DECODE + REG FETCH (ID)</text>
+<rect x="818" y="80" width="370" height="24" rx="4" fill="#2563eb"/>
+<text x="1003.0" y="96" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">STAGE 3: EXECUTE + BRANCH (EX)</text>
+<rect x="1304" y="80" width="210" height="24" rx="4" fill="#0d9488"/>
+<text x="1409.0" y="96" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">STAGE 4: MEMORY (MEM)</text>
+<rect x="1630" y="80" width="180" height="24" rx="4" fill="#059669"/>
+<text x="1720.0" y="96" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">STAGE 5: WRITE-BACK (WB)</text>
+<rect x="316" y="125" width="76" height="585" rx="5" fill="#273449" stroke="#64748b" stroke-width="1.6"/>
+<text x="354.0" y="143" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">IF/ID</text>
+<text x="354.0" y="173.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">pc_plus_1</text>
+<text x="354.0" y="182.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">[7:0]</text>
+<circle cx="316" cy="175" r="2.4" fill="#ffffff"/>
+<circle cx="392" cy="175" r="2.4" fill="#ffffff"/>
+<text x="354.0" y="348.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">instr</text>
+<text x="354.0" y="357.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">[15:0]</text>
+<circle cx="316" cy="350" r="2.4" fill="#ffffff"/>
+<circle cx="392" cy="350" r="2.4" fill="#ffffff"/>
+<text x="354.0" y="422.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">valid</text>
+<circle cx="316" cy="420" r="2.4" fill="#ffffff"/>
+<circle cx="392" cy="420" r="2.4" fill="#ffffff"/>
+<rect x="722" y="125" width="76" height="585" rx="5" fill="#273449" stroke="#64748b" stroke-width="1.6"/>
+<text x="760.0" y="143" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">ID/EX</text>
+<text x="760.0" y="177.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">pc_plus_1</text>
+<circle cx="722" cy="175" r="2.4" fill="#ffffff"/>
+<circle cx="798" cy="175" r="2.4" fill="#ffffff"/>
+<text x="760.0" y="227.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">rs1_val</text>
+<circle cx="722" cy="225" r="2.4" fill="#ffffff"/>
+<circle cx="798" cy="225" r="2.4" fill="#ffffff"/>
+<text x="760.0" y="337.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">rs2_val</text>
+<circle cx="722" cy="335" r="2.4" fill="#ffffff"/>
+<circle cx="798" cy="335" r="2.4" fill="#ffffff"/>
+<text x="760.0" y="412.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">imm [7:0]</text>
+<circle cx="722" cy="410" r="2.4" fill="#ffffff"/>
+<circle cx="798" cy="410" r="2.4" fill="#ffffff"/>
+<text x="760.0" y="473.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">alu_op,alu_src</text>
+<text x="760.0" y="482.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">branch_type</text>
+<text x="760.0" y="491.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">is_jump,is_jr</text>
+<circle cx="722" cy="480" r="2.4" fill="#ffffff"/>
+<text x="760.0" y="537.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">rs1_addr</text>
+<circle cx="722" cy="535" r="2.4" fill="#ffffff"/>
+<text x="760.0" y="562.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">rs2_addr</text>
+<circle cx="722" cy="560" r="2.4" fill="#ffffff"/>
+<text x="760.0" y="608.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">mem_read,</text>
+<text x="760.0" y="617.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">mem_write</text>
+<circle cx="722" cy="610" r="2.4" fill="#ffffff"/>
+<circle cx="798" cy="610" r="2.4" fill="#ffffff"/>
+<text x="760.0" y="639.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">reg_write,</text>
+<text x="760.0" y="648.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">mem_to_reg,</text>
+<text x="760.0" y="657.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">is_jal,is_halt,</text>
+<text x="760.0" y="666.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">valid</text>
+<circle cx="722" cy="650" r="2.4" fill="#ffffff"/>
+<circle cx="798" cy="650" r="2.4" fill="#ffffff"/>
+<text x="760.0" y="687.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">rd [2:0]</text>
+<circle cx="722" cy="685" r="2.4" fill="#ffffff"/>
+<circle cx="798" cy="685" r="2.4" fill="#ffffff"/>
+<rect x="1208" y="125" width="76" height="585" rx="5" fill="#273449" stroke="#64748b" stroke-width="1.6"/>
+<text x="1246.0" y="143" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">EX/MEM</text>
+<text x="1246.0" y="177.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">pc_plus_1</text>
+<circle cx="1208" cy="175" r="2.4" fill="#ffffff"/>
+<circle cx="1284" cy="175" r="2.4" fill="#ffffff"/>
+<text x="1246.0" y="312.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">alu_result</text>
+<circle cx="1208" cy="310" r="2.4" fill="#ffffff"/>
+<circle cx="1284" cy="310" r="2.4" fill="#ffffff"/>
+<text x="1246.0" y="440.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">mem_write_</text>
+<text x="1246.0" y="449.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">data</text>
+<circle cx="1208" cy="442" r="2.4" fill="#ffffff"/>
+<circle cx="1284" cy="442" r="2.4" fill="#ffffff"/>
+<text x="1246.0" y="608.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">mem_read,</text>
+<text x="1246.0" y="617.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">mem_write</text>
+<circle cx="1208" cy="610" r="2.4" fill="#ffffff"/>
+<circle cx="1284" cy="610" r="2.4" fill="#ffffff"/>
+<text x="1246.0" y="639.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">reg_write,</text>
+<text x="1246.0" y="648.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">mem_to_reg,</text>
+<text x="1246.0" y="657.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">is_jal,is_halt,</text>
+<text x="1246.0" y="666.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">valid</text>
+<circle cx="1208" cy="650" r="2.4" fill="#ffffff"/>
+<circle cx="1284" cy="650" r="2.4" fill="#ffffff"/>
+<text x="1246.0" y="687.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">rd [2:0]</text>
+<circle cx="1208" cy="685" r="2.4" fill="#ffffff"/>
+<circle cx="1284" cy="685" r="2.4" fill="#ffffff"/>
+<rect x="1534" y="125" width="76" height="585" rx="5" fill="#273449" stroke="#64748b" stroke-width="1.6"/>
+<text x="1572.0" y="143" font-size="11" fill="#ffffff" text-anchor="middle" font-weight="700">MEM/WB</text>
+<text x="1572.0" y="177.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">pc_plus_1</text>
+<circle cx="1534" cy="175" r="2.4" fill="#ffffff"/>
+<circle cx="1610" cy="175" r="2.4" fill="#ffffff"/>
+<text x="1572.0" y="252.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">alu_result</text>
+<circle cx="1534" cy="250" r="2.4" fill="#ffffff"/>
+<circle cx="1610" cy="250" r="2.4" fill="#ffffff"/>
+<text x="1572.0" y="408.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">mem_read_</text>
+<text x="1572.0" y="417.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">data</text>
+<circle cx="1534" cy="410" r="2.4" fill="#ffffff"/>
+<circle cx="1610" cy="410" r="2.4" fill="#ffffff"/>
+<text x="1572.0" y="639.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">reg_write,</text>
+<text x="1572.0" y="648.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">mem_to_reg,</text>
+<text x="1572.0" y="657.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">is_jal,is_halt,</text>
+<text x="1572.0" y="666.3" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">valid</text>
+<circle cx="1534" cy="650" r="2.4" fill="#ffffff"/>
+<circle cx="1610" cy="650" r="2.4" fill="#ffffff"/>
+<text x="1572.0" y="687.8" font-size="7.8" fill="#e2e8f0" text-anchor="middle" font-weight="400">rd [2:0]</text>
+<circle cx="1534" cy="685" r="2.4" fill="#ffffff"/>
+<circle cx="1610" cy="685" r="2.4" fill="#ffffff"/>
+<path d="M 335 108 L 335 123" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="335" y="105" font-size="7.5" fill="#f87171" text-anchor="middle" font-weight="400">stall</text>
+<path d="M 378 108 L 378 123" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="380" y="105" font-size="7.5" fill="#f87171" text-anchor="middle" font-weight="400">flush_if_id</text>
+<path d="M 760 108 L 760 123" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="760" y="105" font-size="7.5" fill="#f87171" text-anchor="middle" font-weight="400">flush_id_ex</text>
+<polygon points="40,190 70,215 70,285 40,310" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+<text x="55" y="184" font-size="8" fill="#38bdf8" text-anchor="middle" font-weight="700">PC MUX</text>
+<text x="43" y="213" font-size="6.5" fill="#94a3b8" text-anchor="start" font-weight="400">pc+1</text>
+<text x="43" y="238" font-size="6.5" fill="#94a3b8" text-anchor="start" font-weight="400">br</text>
+<text x="43" y="268" font-size="6.5" fill="#94a3b8" text-anchor="start" font-weight="400">jmp</text>
+<text x="43" y="298" font-size="6.5" fill="#94a3b8" text-anchor="start" font-weight="400">pc</text>
+<rect x="95" y="220" width="55" height="60" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+<text x="122" y="246" font-size="12" fill="#ffffff" text-anchor="middle" font-weight="700">PC</text>
+<text x="122" y="261" font-size="8" fill="#94a3b8" text-anchor="middle" font-weight="400">[7:0]</text>
+<text x="122" y="294" font-size="7.5" fill="#4ade80" text-anchor="middle" font-weight="400">en = !halted</text>
+<path d="M 70 250 L 95 250" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="82" y="244" font-size="6.5" fill="#94a3b8" text-anchor="middle" font-weight="400">pc_next</text>
+<path d="M 150 250 L 170 250" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+<path d="M 170 175 L 170 490" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+<path d="M 170 175 L 190 175" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 170 350 L 190 350" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<circle cx="170" cy="250" r="3" fill="#38bdf8"/>
+<circle cx="170" cy="350" r="3" fill="#38bdf8"/>
+<text x="160" y="245" font-size="7.5" fill="#94a3b8" text-anchor="end" font-weight="400">pc</text>
+<path d="M 170 490 L 34 490 L 34 295 L 40 295" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="100" y="484" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">pc (hold when stall)</text>
+<circle cx="170" cy="490" r="0.1" fill="#38bdf8"/>
+<rect x="190" y="155" width="60" height="40" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+<text x="220" y="172" font-size="12" fill="#38bdf8" text-anchor="middle" font-weight="700">+ 1</text>
+<text x="220" y="187" font-size="7.5" fill="#94a3b8" text-anchor="middle" font-weight="400">ADDER</text>
+<path d="M 250 175 L 316 175" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<circle cx="270" cy="175" r="3" fill="#38bdf8"/>
+<text x="283" y="169" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">pc_plus_1</text>
+<path d="M 270 175 L 270 150 L 28 150 L 28 210 L 40 210" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="150" y="145" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">pc_plus_1 (sequential)</text>
+<rect x="190" y="310" width="100" height="100" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+<text x="240" y="327" font-size="9" fill="#38bdf8" text-anchor="middle" font-weight="700">INSTRUCTION</text>
+<text x="240" y="338" font-size="9" fill="#38bdf8" text-anchor="middle" font-weight="700">MEMORY</text>
+<text x="240" y="396" font-size="7.5" fill="#94a3b8" text-anchor="middle" font-weight="400">256 x 16-bit</text>
+<text x="194" y="348" font-size="7" fill="#e2e8f0" text-anchor="start" font-weight="400">addr[7:0]</text>
+<text x="286" y="363" font-size="7" fill="#e2e8f0" text-anchor="end" font-weight="400">instr[15:0]</text>
+<path d="M 290 350 L 316 350" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 302 420 L 316 420" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<text x="298" y="424" font-size="7" fill="#c084fc" text-anchor="end" font-weight="400">valid = rst_n &amp; !halted</text>
+<path d="M 55 340 L 55 308" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="60" y="350" font-size="7" fill="#f87171" text-anchor="start" font-weight="400">sel from EX / hazard:</text>
+<text x="60" y="360" font-size="7" fill="#f87171" text-anchor="start" font-weight="400">branch_taken, is_jump_ex,</text>
+<text x="60" y="370" font-size="7" fill="#f87171" text-anchor="start" font-weight="400">stall</text>
+<rect x="430" y="190" width="130" height="510" rx="6" fill="#1e293b" stroke="#c084fc" stroke-width="1.8"/>
+<text x="495" y="206" font-size="10" fill="#c084fc" text-anchor="middle" font-weight="700">CONTROL UNIT</text>
+<text x="495" y="218" font-size="7.5" fill="#94a3b8" text-anchor="middle" font-weight="400">control_unit.sv</text>
+<text x="436" y="262" font-size="7.5" fill="#94a3b8" text-anchor="start" font-weight="400">opcode = instr[15:12]</text>
+<text x="436" y="273" font-size="7.5" fill="#94a3b8" text-anchor="start" font-weight="400">funct  = instr[2:0]</text>
+<text x="436" y="284" font-size="7.5" fill="#94a3b8" text-anchor="start" font-weight="400">picks rd / rs1 / rs2</text>
+<text x="436" y="295" font-size="7.5" fill="#94a3b8" text-anchor="start" font-weight="400">per instruction format</text>
+<text x="436" y="306" font-size="7.5" fill="#94a3b8" text-anchor="start" font-weight="400">sign-extends imm</text>
+<text x="436" y="515" font-size="7.2" fill="#94a3b8" text-anchor="start" font-weight="400">alu_op[3:0], alu_src</text>
+<text x="436" y="526" font-size="7.2" fill="#94a3b8" text-anchor="start" font-weight="400">branch_type[2:0]</text>
+<text x="436" y="537" font-size="7.2" fill="#94a3b8" text-anchor="start" font-weight="400">is_jump, is_jal, is_jr</text>
+<text x="436" y="548" font-size="7.2" fill="#94a3b8" text-anchor="start" font-weight="400">is_halt</text>
+<text x="436" y="559" font-size="7.2" fill="#94a3b8" text-anchor="start" font-weight="400">mem_read, mem_write</text>
+<text x="436" y="570" font-size="7.2" fill="#94a3b8" text-anchor="start" font-weight="400">mem_to_reg, reg_write</text>
+<text x="436" y="581" font-size="7.2" fill="#94a3b8" text-anchor="start" font-weight="400">(all gated by IF/ID.valid)</text>
+<text x="434" y="354" font-size="7.5" fill="#e2e8f0" text-anchor="start" font-weight="400">instr[15:0]</text>
+<text x="434" y="424" font-size="7.5" fill="#e2e8f0" text-anchor="start" font-weight="400">valid</text>
+<path d="M 392 350 L 430 350" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 392 420 L 430 420" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<text x="556" y="243" font-size="7.5" fill="#e2e8f0" text-anchor="end" font-weight="400">rs1</text>
+<text x="556" y="303" font-size="7.5" fill="#e2e8f0" text-anchor="end" font-weight="400">rs2</text>
+<text x="556" y="413" font-size="7.5" fill="#e2e8f0" text-anchor="end" font-weight="400">imm[7:0]</text>
+<text x="556" y="483" font-size="7.5" fill="#e2e8f0" text-anchor="end" font-weight="400">EX ctrl</text>
+<text x="556" y="613" font-size="7.5" fill="#e2e8f0" text-anchor="end" font-weight="400">mem ctrl</text>
+<text x="556" y="653" font-size="7.5" fill="#e2e8f0" text-anchor="end" font-weight="400">WB ctrl</text>
+<text x="556" y="688" font-size="7.5" fill="#e2e8f0" text-anchor="end" font-weight="400">rd</text>
+<rect x="590" y="205" width="100" height="150" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+<text x="640" y="222" font-size="8.5" fill="#38bdf8" text-anchor="middle" font-weight="700">REGISTER FILE</text>
+<text x="640" y="266" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">8 x 8-bit, R0 = 0</text>
+<text x="640" y="276" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">WB-&gt;ID bypass</text>
+<text x="594" y="243" font-size="7" fill="#e2e8f0" text-anchor="start" font-weight="400">rs1_addr</text>
+<text x="594" y="303" font-size="7" fill="#e2e8f0" text-anchor="start" font-weight="400">rs2_addr</text>
+<text x="686" y="229" font-size="7" fill="#e2e8f0" text-anchor="end" font-weight="400">rs1_data</text>
+<text x="686" y="339" font-size="7" fill="#e2e8f0" text-anchor="end" font-weight="400">rs2_data</text>
+<path d="M 560 240 L 590 240" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<circle cx="574" cy="240" r="3" fill="#38bdf8"/>
+<path d="M 574 240 L 574 535 L 722 535" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 560 300 L 590 300" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<circle cx="582" cy="300" r="3" fill="#38bdf8"/>
+<path d="M 582 300 L 582 560 L 722 560" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 690 225 L 722 225" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 690 335 L 722 335" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 605 374 L 605 357" fill="none" stroke="#4ade80" stroke-width="1.8" marker-end="url(#aw)"/>
+<text x="605" y="384" font-size="7" fill="#4ade80" text-anchor="middle" font-weight="400">wr_addr</text>
+<path d="M 675 374 L 675 357" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<text x="675" y="384" font-size="7" fill="#c084fc" text-anchor="middle" font-weight="400">wr_en</text>
+<text x="640" y="348" font-size="7" fill="#4ade80" text-anchor="middle" font-weight="400">wr_data</text>
+<path d="M 560 410 L 722 410" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 560 480 L 722 480" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<path d="M 560 610 L 722 610" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<path d="M 560 650 L 722 650" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<path d="M 560 685 L 722 685" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 392 175 L 722 175" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 495 700 L 495 718" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="495" y="727" font-size="7" fill="#f87171" text-anchor="middle" font-weight="400">uses_rs1/2 (opcode decode in cpu_core)</text>
+<polygon points="830,205 860,220 860,260 830,275" fill="#1e293b" stroke="#fb923c" stroke-width="1.8"/>
+<polygon points="830,315 860,330 860,370 830,385" fill="#1e293b" stroke="#fb923c" stroke-width="1.8"/>
+<text x="832" y="227.5" font-size="5.6" fill="#94a3b8" text-anchor="start" font-weight="400">ID/EX</text>
+<text x="832" y="242.5" font-size="5.6" fill="#94a3b8" text-anchor="start" font-weight="400">EX/MEM</text>
+<text x="832" y="257.5" font-size="5.6" fill="#94a3b8" text-anchor="start" font-weight="400">WB</text>
+<text x="832" y="337.5" font-size="5.6" fill="#94a3b8" text-anchor="start" font-weight="400">ID/EX</text>
+<text x="832" y="352.5" font-size="5.6" fill="#94a3b8" text-anchor="start" font-weight="400">EX/MEM</text>
+<text x="832" y="367.5" font-size="5.6" fill="#94a3b8" text-anchor="start" font-weight="400">WB</text>
+<text x="845" y="288" font-size="7" fill="#fb923c" text-anchor="middle" font-weight="700">FWD A</text>
+<text x="845" y="398" font-size="7" fill="#fb923c" text-anchor="middle" font-weight="700">FWD B</text>
+<path d="M 798 225 L 830 225" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 798 335 L 830 335" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 845 118 L 845 207" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="845" y="114" font-size="7.5" fill="#f87171" text-anchor="middle" font-weight="400">fwd_a[1:0]</text>
+<path d="M 845 303 L 845 317" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="845" y="300" font-size="7.5" fill="#f87171" text-anchor="middle" font-weight="400">fwd_b[1:0]</text>
+<path d="M 802 730 L 802 240 L 830 240" fill="none" stroke="#fb923c" stroke-width="1.8" marker-end="url(#af)"/>
+<path d="M 802 350 L 830 350" fill="none" stroke="#fb923c" stroke-width="1.8" marker-end="url(#af)"/>
+<circle cx="802" cy="350" r="3" fill="#fb923c"/>
+<path d="M 814 748 L 814 255 L 830 255" fill="none" stroke="#fb923c" stroke-width="1.8" marker-end="url(#af)"/>
+<path d="M 814 365 L 830 365" fill="none" stroke="#fb923c" stroke-width="1.8" marker-end="url(#af)"/>
+<circle cx="814" cy="365" r="3" fill="#fb923c"/>
+<polygon points="912,330 940,345 940,415 912,430" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8"/>
+<text x="926" y="392" font-size="6.5" fill="#94a3b8" text-anchor="middle" font-weight="400">ALU</text>
+<text x="926" y="400" font-size="6.5" fill="#94a3b8" text-anchor="middle" font-weight="400">SRC</text>
+<path d="M 926 302 L 926 332" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<text x="926" y="298" font-size="7.5" fill="#c084fc" text-anchor="middle" font-weight="400">alu_src</text>
+<path d="M 860 350 L 912 350" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 798 410 L 912 410" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<polygon points="975,215 1055,245 1055,375 975,405 975,350 995,325 975,290" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+<text x="1025" y="303" font-size="13" fill="#38bdf8" text-anchor="middle" font-weight="700">ALU</text>
+<text x="1025" y="316" font-size="7.5" fill="#94a3b8" text-anchor="middle" font-weight="400">8-bit</text>
+<text x="979" y="244" font-size="7" fill="#94a3b8" text-anchor="start" font-weight="400">A</text>
+<text x="979" y="384" font-size="7" fill="#94a3b8" text-anchor="start" font-weight="400">B</text>
+<path d="M 860 240 L 975 240" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<circle cx="875" cy="240" r="3" fill="#38bdf8"/>
+<text x="935" y="235" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">alu_in_a</text>
+<path d="M 940 380 L 975 380" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="956" y="374" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">alu_in_b</text>
+<path d="M 1015 192 L 1015 229" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<text x="1015" y="188" font-size="7.5" fill="#c084fc" text-anchor="middle" font-weight="400">alu_op[3:0]</text>
+<path d="M 1055 310 L 1208 310" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="1130" y="304" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">alu_result[7:0]</text>
+<circle cx="888" cy="350" r="3" fill="#38bdf8"/>
+<path d="M 888 350 L 888 442" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+<circle cx="888" cy="442" r="3" fill="#38bdf8"/>
+<path d="M 888 442 L 1208 442" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="1000" y="437" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">store data = fwd_b_data</text>
+<path d="M 798 175 L 1208 175" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<circle cx="1090" cy="175" r="3" fill="#38bdf8"/>
+<rect x="945" y="458" width="170" height="132" rx="6" fill="#1e293b" stroke="#f87171" stroke-width="1.8"/>
+<text x="1030" y="472" font-size="8" fill="#f87171" text-anchor="middle" font-weight="700">BRANCH / JUMP RESOLVER</text>
+<text x="949" y="491" font-size="6.8" fill="#c084fc" text-anchor="start" font-weight="400">ctrl from ID/EX:</text>
+<text x="949" y="508" font-size="7" fill="#e2e8f0" text-anchor="start" font-weight="400">imm</text>
+<text x="949" y="525" font-size="7" fill="#e2e8f0" text-anchor="start" font-weight="400">b = fwd_b_data</text>
+<text x="949" y="542" font-size="7" fill="#e2e8f0" text-anchor="start" font-weight="400">a = alu_in_a</text>
+<text x="1110" y="491" font-size="7" fill="#e2e8f0" text-anchor="end" font-weight="400">branch_taken</text>
+<text x="1110" y="508" font-size="7" fill="#e2e8f0" text-anchor="end" font-weight="400">is_jump_ex</text>
+<text x="1110" y="525" font-size="7" fill="#e2e8f0" text-anchor="end" font-weight="400">jump_target</text>
+<text x="1110" y="542" font-size="7" fill="#e2e8f0" text-anchor="end" font-weight="400">branch_target</text>
+<text x="1030" y="560" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">BEQ BNE BLT BGE (signed cmp)</text>
+<text x="1030" y="572" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">br_tgt = pc+1 + imm</text>
+<text x="1030" y="583" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">jmp_tgt = is_jr ? a : imm</text>
+<path d="M 925 488 L 945 488" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<path d="M 1090 175 L 1090 458" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 875 240 L 875 542 L 945 542" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 888 350 L 888 525 L 945 525" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<circle cx="900" cy="410" r="3" fill="#38bdf8"/>
+<path d="M 900 410 L 900 508 L 945 508" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 1115 491 L 1138 491" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="1141" y="494" font-size="7" fill="#f87171" text-anchor="start" font-weight="400">branch_taken</text>
+<path d="M 1115 508 L 1138 508" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="1141" y="511" font-size="7" fill="#f87171" text-anchor="start" font-weight="400">is_jump_ex</text>
+<path d="M 1115 525 L 1160 525 L 1160 784 L 22 784 L 22 265 L 40 265" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<path d="M 1115 542 L 1140 542 L 1140 766 L 14 766 L 14 235 L 40 235" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<path d="M 798 610 L 1208 610" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<path d="M 798 650 L 1208 650" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<path d="M 798 685 L 1208 685" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<rect x="1344" y="285" width="130" height="180" rx="6" fill="#1e293b" stroke="#2dd4bf" stroke-width="1.8"/>
+<text x="1409" y="301" font-size="9.5" fill="#2dd4bf" text-anchor="middle" font-weight="700">DATA MEMORY</text>
+<text x="1409" y="312" font-size="7.5" fill="#94a3b8" text-anchor="middle" font-weight="400">256 x 8-bit RAM</text>
+<text x="1348" y="328" font-size="7" fill="#e2e8f0" text-anchor="start" font-weight="400">addr[7:0]</text>
+<text x="1348" y="457" font-size="7" fill="#e2e8f0" text-anchor="start" font-weight="400">wdata[7:0]</text>
+<text x="1470" y="424" font-size="7" fill="#e2e8f0" text-anchor="end" font-weight="400">rdata[7:0]</text>
+<text x="1409" y="458" font-size="7" fill="#c084fc" text-anchor="middle" font-weight="400">we / re</text>
+<path d="M 1284 310 L 1344 310" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<circle cx="1296" cy="310" r="3" fill="#38bdf8"/>
+<circle cx="1320" cy="310" r="3" fill="#38bdf8"/>
+<path d="M 1320 310 L 1320 250 L 1534 250" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="1420" y="245" font-size="7" fill="#94a3b8" text-anchor="middle" font-weight="400">alu_result bypass</text>
+<path d="M 1296 310 L 1296 730 L 802 730" fill="none" stroke="#fb923c" stroke-width="1.8"/>
+<path d="M 1284 442 L 1344 442" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 1284 610 L 1400 610 L 1400 465" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<text x="1405" y="540" font-size="7" fill="#c084fc" text-anchor="start" font-weight="400">mem_write, mem_read</text>
+<path d="M 1474 410 L 1534 410" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 1284 175 L 1534 175" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 1284 650 L 1534 650" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<path d="M 1284 685 L 1534 685" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<polygon points="1650,150 1710,185 1710,415 1650,450" fill="#1e293b" stroke="#4ade80" stroke-width="2"/>
+<text x="1680" y="143" font-size="9" fill="#4ade80" text-anchor="middle" font-weight="700">WB MUX</text>
+<text x="1654" y="178" font-size="6.8" fill="#e2e8f0" text-anchor="start" font-weight="400">pc+1 (JAL)</text>
+<text x="1654" y="254" font-size="6.8" fill="#e2e8f0" text-anchor="start" font-weight="400">alu_result</text>
+<text x="1654" y="414" font-size="6.8" fill="#e2e8f0" text-anchor="start" font-weight="400">mem_read_data</text>
+<path d="M 1610 175 L 1650 175" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 1610 250 L 1650 250" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 1610 410 L 1650 410" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<path d="M 1610 650 L 1680 650 L 1680 436" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<text x="1685" y="540" font-size="7" fill="#c084fc" text-anchor="start" font-weight="400">select:</text>
+<text x="1685" y="550" font-size="7" fill="#c084fc" text-anchor="start" font-weight="400">is_jal &gt; mem_to_reg</text>
+<circle cx="1635" cy="650" r="3" fill="#c084fc"/>
+<path d="M 1635 650 L 1635 622" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ac)"/>
+<text x="1635" y="617" font-size="7.5" fill="#c084fc" text-anchor="middle" font-weight="400">wr_en</text>
+<path d="M 1610 685 L 1640 685" fill="none" stroke="#4ade80" stroke-width="1.8" marker-end="url(#aw)"/>
+<text x="1644" y="688" font-size="7.5" fill="#4ade80" text-anchor="start" font-weight="400">wr_addr</text>
+<path d="M 1710 300 L 1745 300" fill="none" stroke="#4ade80" stroke-width="1.8"/>
+<circle cx="1745" cy="300" r="3.5" fill="#4ade80"/>
+<text x="1712" y="292" font-size="8" fill="#4ade80" text-anchor="start" font-weight="700">wb_data</text>
+<path d="M 1745 300 L 1745 748 L 640 748 L 640 357" fill="none" stroke="#4ade80" stroke-width="1.8" marker-end="url(#aw)"/>
+<circle cx="814" cy="748" r="3" fill="#fb923c"/>
+<text x="830" y="724" font-size="8" fill="#fb923c" text-anchor="start" font-weight="600">EX/MEM forward bus: fwd_val_mem = is_jal ? pc+1 : alu_result   (FWD_MEM, 1 instr ahead)</text>
+<text x="1180" y="742" font-size="8" fill="#4ade80" text-anchor="start" font-weight="600">wb_data -&gt; RegFile.wr_data  and  FWD MUX (FWD_WB, 2 instr ahead)</text>
+<text x="60" y="760" font-size="8" fill="#f87171" text-anchor="start" font-weight="600">branch_target (pc+1 + imm) -&gt; PC MUX  [taken branch]</text>
+<text x="60" y="778" font-size="8" fill="#f87171" text-anchor="start" font-weight="600">jump_target (imm, or rs1 for JR) -&gt; PC MUX  [JMP / JAL / JR]</text>
+<rect x="700" y="820" width="600" height="175" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+<text x="1000.0" y="840" font-size="12" fill="#f59e0b" text-anchor="middle" font-weight="700">HAZARD DETECTION &amp; FORWARDING UNIT  (hazard_unit.sv)</text>
+<rect x="715" y="855" width="280" height="125" rx="5" fill="#0f172a" stroke="#fb923c" stroke-width="1.2"/>
+<text x="855" y="872" font-size="9.5" fill="#fb923c" text-anchor="middle" font-weight="700">RAW forwarding (EX stage)</text>
+<text x="722" y="890" font-size="7.3" fill="#e2e8f0" text-anchor="start" font-weight="400">if EX/MEM.reg_write &amp; rd!=0 &amp; rd==ID/EX.rs1/rs2</text>
+<text x="722" y="905" font-size="7.3" fill="#e2e8f0" text-anchor="start" font-weight="400">      -&gt; FWD_MEM (01)</text>
+<text x="722" y="920" font-size="7.3" fill="#e2e8f0" text-anchor="start" font-weight="400">else if MEM/WB.reg_write &amp; rd!=0 &amp; rd==ID/EX.rs1/rs2</text>
+<text x="722" y="935" font-size="7.3" fill="#e2e8f0" text-anchor="start" font-weight="400">      -&gt; FWD_WB (10)</text>
+<text x="722" y="950" font-size="7.3" fill="#e2e8f0" text-anchor="start" font-weight="400">else FWD_NONE (00)  -&gt;  fwd_a, fwd_b</text>
+<rect x="1005" y="855" width="280" height="125" rx="5" fill="#0f172a" stroke="#f87171" stroke-width="1.2"/>
+<text x="1145" y="872" font-size="9.5" fill="#f87171" text-anchor="middle" font-weight="700">Load-use stall and control flush</text>
+<text x="1012" y="890" font-size="7.3" fill="#e2e8f0" text-anchor="start" font-weight="400">load_use = ID/EX.mem_read &amp; rd!=0 &amp; (uses_rs1 &amp; rd==rs1</text>
+<text x="1012" y="905" font-size="7.3" fill="#e2e8f0" text-anchor="start" font-weight="400">                                 | uses_rs2 &amp; rd==rs2)</text>
+<text x="1012" y="920" font-size="7.3" fill="#e2e8f0" text-anchor="start" font-weight="400">branch_taken | is_jump_ex  -&gt; flush_if_id, flush_id_ex</text>
+<text x="1012" y="935" font-size="7.3" fill="#e2e8f0" text-anchor="start" font-weight="400">load_use                  -&gt; stall, flush_id_ex</text>
+<text x="1012" y="950" font-size="7.3" fill="#e2e8f0" text-anchor="start" font-weight="400">priority: control flush &gt; load-use stall</text>
+<path d="M 692 845 L 700 845" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="688" y="848" font-size="8" fill="#e2e8f0" text-anchor="end" font-weight="400">IF/ID (ID stage): cu_rs1, cu_rs2, uses_rs1, uses_rs2</text>
+<path d="M 692 880 L 700 880" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="688" y="883" font-size="8" fill="#e2e8f0" text-anchor="end" font-weight="400">ID/EX: rs1_addr, rs2_addr, rd, mem_read</text>
+<path d="M 692 915 L 700 915" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="688" y="918" font-size="8" fill="#e2e8f0" text-anchor="end" font-weight="400">EX/MEM: rd, reg_write &amp; valid</text>
+<path d="M 692 950 L 700 950" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ad)"/>
+<text x="688" y="953" font-size="8" fill="#e2e8f0" text-anchor="end" font-weight="400">MEM/WB: rd, reg_write &amp; valid</text>
+<path d="M 692 985 L 700 985" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="688" y="988" font-size="8" fill="#e2e8f0" text-anchor="end" font-weight="400">EX stage: branch_taken, is_jump_ex</text>
+<path d="M 1300 850 L 1314 850" fill="none" stroke="#fb923c" stroke-width="1.8" marker-end="url(#af)"/>
+<text x="1320" y="853" font-size="8" fill="#e2e8f0" text-anchor="start" font-weight="400">fwd_a[1:0], fwd_b[1:0]  -&gt;  FWD MUX A / B  (EX)</text>
+<path d="M 1300 890 L 1314 890" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="1320" y="893" font-size="8" fill="#e2e8f0" text-anchor="start" font-weight="400">stall  -&gt;  PC MUX / PC hold, IF/ID register</text>
+<path d="M 1300 930 L 1314 930" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="1320" y="933" font-size="8" fill="#e2e8f0" text-anchor="start" font-weight="400">flush_if_id  -&gt;  IF/ID register</text>
+<path d="M 1300 970 L 1314 970" fill="none" stroke="#f87171" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#ah)"/>
+<text x="1320" y="973" font-size="8" fill="#e2e8f0" text-anchor="start" font-weight="400">flush_id_ex  -&gt;  ID/EX register</text>
+<text x="-18" y="1030" font-size="9" fill="#94a3b8" text-anchor="start" font-weight="400">Notes:  clk and rst_n go to every register (PC, 4 pipeline registers, register file, data memory).   R0 is hardwired to 0 (reads 0, writes ignored).</text>
+<text x="-18" y="1044" font-size="9" fill="#94a3b8" text-anchor="start" font-weight="400">pc fields exist inside IF/ID and ID/EX structs for debug but are not used downstream.   halted latches when HALT reaches WB (valid &amp; is_halt) and freezes the PC.</text>
+<text x="-18" y="1058" font-size="9" fill="#94a3b8" text-anchor="start" font-weight="400">Branches and jumps resolve in EX: taken -&gt; 2-cycle flush.   Load-use -&gt; 1 stall bubble.   Register-to-register RAW dependencies -&gt; forwarding, 0 stalls.</text>
+<text x="-18" y="1072" font-size="9" fill="#94a3b8" text-anchor="start" font-weight="400">Memory model: Harvard.  Instruction memory is read combinationally by pc; data memory writes on the clock edge and reads combinationally.</text>
+</svg>
