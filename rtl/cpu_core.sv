@@ -46,6 +46,85 @@ module cpu_core
   logic [ADDR_WIDTH-1:0] branch_target_ex;
   logic [ADDR_WIDTH-1:0] jump_target_ex;
 
+  // ==========================================================================
+  // [ARCHITECTURAL EXTENSION: DYNAMIC BRANCH PREDICTION ARCHITECTURE (NON-SYNTHESIZABLE)]
+  // ==========================================================================
+  // Currently, this core implements static branch prediction (Predict Not-Taken):
+  //   - IF Stage: pc_next defaults to pc_plus_1 (0-cycle penalty if branch is not taken).
+  //   - EX Stage: Branch condition evaluated; if taken, 2-cycle penalty incurred
+  //               (flushes IF/ID and ID/EX registers, redirects PC to branch target).
+  //
+  // To upgrade this core to Dynamic Branch Prediction (2-Bit Saturating Bimodal + BTB),
+  // the following structural modifications across the pipeline stages would be required:
+  //
+  // 1. IF Stage Additions:
+  //    - Branch Target Buffer (BTB): Direct-mapped cache storing branch target addresses.
+  //    - Branch History Table (BHT): Array of 2-bit saturating counters:
+  //        2'b00: Strongly Not Taken
+  //        2'b01: Weakly Not Taken
+  //        2'b10: Weakly Taken (Predict Taken)
+  //        2'b11: Strongly Taken (Predict Taken)
+  //    - Next PC Selection: If BTB hit and BHT counter MSB is 1, pc_next = btb_target.
+  //
+  // 2. Pipeline Register Additions (IF/ID and ID/EX):
+  //    - Pass `predicted_taken` (1 bit) and `predicted_target` (8 bits) alongside
+  //      the instruction through IF/ID and ID/EX to verify prediction accuracy in EX.
+  //
+  // 3. EX Stage Misprediction Resolution & Predictor Update:
+  //    - Misprediction condition:
+  //        mispredict = (actual_taken != id_ex_predicted_taken) ||
+  //                     (actual_taken && (actual_target != id_ex_predicted_target));
+  //    - PC Redirection on Misprediction:
+  //        recovery_pc = actual_taken ? actual_target : id_ex_pc_plus_1;
+  //        Trigger pipeline flush (flush_if_id = 1, flush_id_ex = 1).
+  //    - State Machine Update:
+  //        BHT counter updated based on `actual_taken`:
+  //          If taken:     counter <= (counter == 2'b11) ? 2'b11 : counter + 1;
+  //          If not taken: counter <= (counter == 2'b00) ? 2'b00 : counter - 1;
+  //        BTB updated with `actual_target` on taken branches.
+  //
+  // --------------------------------------------------------------------------
+  // Reference Non-Synthesized Implementation (Commented Model):
+  // --------------------------------------------------------------------------
+  /*
+  localparam int BTB_ENTRIES = 16;
+  logic [ADDR_WIDTH-1:0] btb_target [0:BTB_ENTRIES-1];
+  logic [ADDR_WIDTH-1:0] btb_tag    [0:BTB_ENTRIES-1];
+  logic                  btb_valid  [0:BTB_ENTRIES-1];
+  logic [1:0]            bht_counter[0:BTB_ENTRIES-1]; // 2-bit saturating counters
+
+  wire [3:0] if_bht_idx = pc[3:0];
+  wire btb_hit = btb_valid[if_bht_idx] && (btb_tag[if_bht_idx] == pc);
+  wire predict_taken = btb_hit && bht_counter[if_bht_idx][1];
+  wire [ADDR_WIDTH-1:0] predicted_next_pc = predict_taken ? btb_target[if_bht_idx] : pc_plus_1;
+
+  // In EX Stage (Misprediction detection):
+  wire [3:0] ex_bht_idx = id_ex_out.pc[3:0];
+  wire branch_mispredict = id_ex_out.valid && (id_ex_out.branch_type != BR_NONE) &&
+                           ((branch_taken != id_ex_out.predicted_taken) ||
+                            (branch_taken && (branch_target_ex != id_ex_out.predicted_target)));
+  wire [ADDR_WIDTH-1:0] branch_recovery_pc = branch_taken ? branch_target_ex : id_ex_out.pc_plus_1;
+
+  // Predictor update on clock edge:
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      for (int i = 0; i < BTB_ENTRIES; i++) begin
+        bht_counter[i] <= 2'b01; // Initialize to Weakly Not-Taken
+        btb_valid[i]   <= 1'b0;
+      end
+    end else if (id_ex_out.valid && (id_ex_out.branch_type != BR_NONE)) begin
+      if (branch_taken) begin
+        bht_counter[ex_bht_idx] <= (bht_counter[ex_bht_idx] == 2'b11) ? 2'b11 : bht_counter[ex_bht_idx] + 2'd1;
+        btb_target[ex_bht_idx]  <= branch_target_ex;
+        btb_tag[ex_bht_idx]     <= id_ex_out.pc;
+        btb_valid[ex_bht_idx]   <= 1'b1;
+      end else begin
+        bht_counter[ex_bht_idx] <= (bht_counter[ex_bht_idx] == 2'b00) ? 2'b00 : bht_counter[ex_bht_idx] - 2'd1;
+      end
+    end
+  end
+  */
+
   // --------------------------------------------------------------------------
   // 1. INSTRUCTION FETCH (IF) STAGE
   // --------------------------------------------------------------------------
