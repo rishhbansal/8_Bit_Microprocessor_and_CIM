@@ -60,8 +60,7 @@ class PipelineSimulator:
 
     def load_imem(self, mem_file):
         if not os.path.exists(mem_file):
-            print(f"File {mem_file} not found!")
-            return
+            raise FileNotFoundError(f"Instruction memory file not found: {os.path.abspath(mem_file)}")
         with open(mem_file, 'r') as f:
             for idx, line in enumerate(f):
                 line = line.strip()
@@ -332,7 +331,10 @@ class PipelineSimulator:
         print(f"Cycle {self.cycle:3d} | PC:{self.pc:02X} | {reg_str}")
 
 def main():
-    sim = PipelineSimulator("sim/program.mem")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    default_mem = os.path.join(script_dir, "program.mem")
+    mem_file = sys.argv[1] if len(sys.argv) > 1 else default_mem
+    sim = PipelineSimulator(mem_file)
     print("=" * 70)
     print("STARTING CYCLE-ACCURATE 5-STAGE PIPELINE SIMULATION")
     print("=" * 70)
