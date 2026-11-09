@@ -128,13 +128,6 @@ A central question in non-von-Neumann computing: **Why did the optical computer 
 ├── scripts/
 │   ├── assemble.py                     # Custom 2-pass Python assembler
 │   └── vivado_project.tcl              # Automated AMD Vivado project & synthesis script
-├── docs/
-│   ├── FIRST_PRINCIPLES_GUIDE.md       # Block-by-block explanation & hardware inference
-│   ├── VIVADO_SETUP_GUIDE.md           # Vivado installation & simulation tutorial
-│   ├── ISA_SPECIFICATION.md            # Complete Instruction Set Architecture reference
-│   ├── PROJECT_PROPOSAL_REPORT.md      # Architecture proposal and timing analysis
-│   ├── HDLBITS_7458_SOLUTION.md        # Solution for HDLBits 7458 circuit
-│   └── BONUS_C_PROGRAM_MAPPING.md      # C benchmark program to assembly compilation
 └── README.md
 ```
 
